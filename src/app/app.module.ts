@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { SelectivePreloadingStrategyService } from './service/selective-preloading-strategy.service';
-
+import { clock } from './reducers/clock.reducer';
 const routes:Routes= [
   {
     path: 'home',
@@ -30,13 +30,6 @@ const routes:Routes= [
     BrowserModule,
     RouterModule.forRoot(routes, {
       preloadingStrategy:SelectivePreloadingStrategyService
-    }),
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
     })
   ],
   providers: [],
