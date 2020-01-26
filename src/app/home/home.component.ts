@@ -1,8 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, interval, Subject, merge } from 'rxjs';
-import { map, mapTo, scan, startWith } from 'rxjs/operators';
+import { map, mapTo, scan, startWith, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-
+interface Person{
+  name: string,
+  time: Date
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,14 +13,16 @@ import { Store } from '@ngrx/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
+  
   private clock: Observable<Date>;
+  private people: Observable<Person>;
   private update$ = new Subject();
+  private reset$ = new Subject();
+  private advance$ = new Subject();
 
   constructor(private store: Store<any>) {
     this.clock = this.store.select('clock') as Observable<Date>;
-    this.clock.subscribe(res => {
-      debugger;
-      console.log(res);});
+    this.people = this.store.select('people');
   }
 
   ngOnInit() {
@@ -26,7 +31,11 @@ export class HomeComponent implements OnInit {
       interval(1000).pipe(map(_ => { return { type: 'second', payload: 1 }; })),
       this.update$.asObservable().pipe(map(res => {
         return { type: 'hour', payload: +res }
-      }))
+      })),
+      this.advance$.asObservable().pipe(map(p => {
+        return {type: 'advance', payload: p};
+      })),
+      this.reset$.asObservable().pipe(withLatestFrom(this.clock, ((_,time)=>{return {type: 'reset', payload: time}})))
     ).subscribe(({ type, payload }) => {
       this.store.dispatch({ type, payload });
     });

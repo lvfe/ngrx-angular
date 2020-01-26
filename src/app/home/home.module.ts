@@ -5,14 +5,14 @@ import { HomeRoutingModule } from './home-routing.module';
 import { ClockComponent } from './clock.component';
 import { HomeComponent } from './home.component';
 import { StoreModule } from '@ngrx/store';
-import { clock } from '../reducers/clock.reducer';
+import { clock, people } from '../reducers/clock.reducer';
 
 @NgModule({
   declarations: [HomeComponent, ClockComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
-    StoreModule.forRoot({clock})
+    StoreModule.forRoot({clock, people})
   ]
 })
 export class HomeModule { }

@@ -1,3 +1,7 @@
 <input value="0" type="text" #keyvalue/>
 <button (click)="update$.next(keyvalue.value)"></button>
 <app-clock [clock]="clock | async"></app-clock>
+<ul>
+    <li *ngFor="let p of people|async" (click)="advance$.next(p)">{{p|json}}</li>
+</ul>
+<button (click)="reset$.next()">reset</button>
