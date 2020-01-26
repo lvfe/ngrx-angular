@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
-import { initialState, metaReducers } from './reducers';
+import { reducers, metaReducers } from './reducers';
 import { SelectivePreloadingStrategyService } from './service/selective-preloading-strategy.service';
 
 const routes:Routes= [
@@ -31,7 +31,7 @@ const routes:Routes= [
     RouterModule.forRoot(routes, {
       preloadingStrategy:SelectivePreloadingStrategyService
     }),
-    StoreModule.forRoot(initialState, {
+    StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,

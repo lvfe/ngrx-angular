@@ -1,1 +1,9 @@
-<p>list works!</p>
+<button (click)="showJava()">Java articles</button>
+<button (click)="showAngular()">Angular articles</button>
+<button (click)="showFav()">Favorite articles</button>
+<ul>
+    <li *ngFor="let article of articles | async">
+        {{article | json}}
+    </li>
+</ul>
+<button>

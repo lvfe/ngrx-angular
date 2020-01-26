@@ -6,24 +6,13 @@ import {
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import * as load from '../actions/loading';
-
+import * as articleReducer from './article.reducer';
+import { AppState } from '../app.states';
 export const initialState = false;
 
-export const reducers = (state: boolean = initialState, action: load.Actions) =>{
-  switch(action.type) {
-    case load.HIDE_LOADING:{
-      state = false;
-      return state;
-    }
-    case load.SHOW_LOADING:{
-      state = true;
-      return state;
-    }
-    default:
-      return state
-  }
-}
+export const reducers:ActionReducerMap<AppState> = {
+  articleState: articleReducer.reducer
+};
 
 
-export const metaReducers: MetaReducer<boolean>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
